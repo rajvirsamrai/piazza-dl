@@ -1,4 +1,4 @@
-# piazza_ripper
+# piazza-dl
 
 piazza_ripper extracts all posts from a course's piazza forum and outputs them, in their raw format (JSON), to individual files.
 
@@ -9,5 +9,5 @@ A verbose mode exists if you want to see the scripts progress.
 
 ## Usage
 ```bash session
-python3 piazza_ripper.py XXXXXXXXX
+python3 piazza-dl.py XXXXXXXXX
 ```
