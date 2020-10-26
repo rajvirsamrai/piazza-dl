@@ -7,7 +7,6 @@ import sys, time
 
 def main(argv):
     piazza_code: str = ""
-    output_path: str = ""
     verbose: bool = False
 
     # Create argument parser
