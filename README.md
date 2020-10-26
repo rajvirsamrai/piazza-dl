@@ -5,7 +5,7 @@ piazza-dl extracts all posts from a course's piazza forum and outputs them, in t
 A verbose mode exists if you want to see the scripts progress.
 
 ## Dependencies
-[piazza_api](https://github.com/hfaran/piazza-api)
+[piazza-api](https://github.com/hfaran/piazza-api)
 
 ## Usage
 ```bash session
