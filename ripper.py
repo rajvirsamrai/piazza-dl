@@ -38,9 +38,6 @@ def main(argv):
     if verbose:
         print("Piazza Code recieved: " + piazza_code)
 
-    if verbose:
-        print("Will output to: " + output_path)
-
     # Login
     p = Piazza()
     if verbose:
