@@ -5,18 +5,29 @@ from piazza_api import Piazza
 from typing import TextIO
 import sys, time
 
+def to_txt(post):
+    pass
+
 def main(argv):
     piazza_code: str = ""
     verbose: bool = False
 
     # Create argument parser
-    parser = ArgumentParser(description="Extract all Piazza posts from a class into a group of json files in the current directory. One file per post.")
+    parser = ArgumentParser(description="Extract all Piazza visable posts from a class forum into individual .txt files in the current directory. One file per post.")
 
     # Define mandatory arguments
     parser.add_argument("piazza_code",
                         help="The string of random characters at the end of the URL of your class's Piazza forum. The X's represent what is needed: https://piazza.com/class/XXXXXXXXXXXX?cid=123",
                         nargs=1,
                         metavar="PIAZZACODE")
+    parser.add_argument("email",
+                        help="The email you use to log into Piazza.",
+                        nargs=1,
+                        metavar="EMAIL")
+    parser.add_argument("password",
+                        help="The password you use to log into Piazza.",
+                        nargs=1,
+                        metavar="PASSWORD")
 
     # Define optional arguments
     parser.add_argument("-v", "--verbose",
@@ -41,7 +52,7 @@ def main(argv):
     p = Piazza()
     if verbose:
         print("Attempting to login")
-    p.user_login()
+    p.user_login(args.email[0], args.password[0])
 
     # Connect to course
     if verbose:
@@ -51,24 +62,25 @@ def main(argv):
 
     # Retrieve feed(posts)
     if verbose:
-        print("Retrieving feed (posts)")
-    feed = course.get_feed(limit=999999, offset=0)
-    cids = [post['id'] for post in feed["feed"]]
-
+        print("Retrieving all visable posts")
+    posts = course.iter_all_posts()
+    
     # Output to files
     if verbose:
         print("Outputting to files")
-    for cid in cids:
-        post = course.get_post(cid)
+
+    num = 1
+    for post in posts:
         try:
-            f = open("post_"+str(cid)+".json", 'w')
+            f = open("class_"+ piazza_code + "_post_" + str(post["nr"]) + ".txt", 'w')
             f.write(str(post))
             f.close()
 
             if verbose:
-                print("post_" + cid + ".json done")
+                print("class_" + piazza_code + "_post_" + str(post["nr"]) + ".txt done")
 
             time.sleep(1)   # after some experimentation it seems piazza servers tolerate 1 request per second
+            num += 1
         except OSError as e:
             print(e.strerror, file=sys.stderr)
 
