@@ -9,7 +9,7 @@ A verbose mode exists if you want to see the scripts progress.
 
 ## Usage
 ```bash session
-python3 piazza-dl.py PIAZZACOURSECODE
+python3 piazza-dl.py [-h] [-v] PIAZZACODE EMAIL PASSWORD
 ```
 The piazza course code can be found in the url when visiting your class's forum. It would be where the X's are in this example; https[]()://piazza.com/class/XXXXXXXXXXXXXXXX?cid=123
 
