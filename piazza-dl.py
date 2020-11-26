@@ -3,7 +3,7 @@
 from argparse import ArgumentParser
 from piazza_api import Piazza
 from typing import TextIO
-import sys, time
+import json, sys, time
 
 def to_txt(post):
     pass
@@ -69,18 +69,16 @@ def main(argv):
     if verbose:
         print("Outputting to files")
 
-    num = 1
     for post in posts:
         try:
-            f = open("class_"+ piazza_code + "_post_" + str(post["nr"]) + ".txt", 'w')
-            f.write(str(post))
+            f = open("class_"+ piazza_code + "_post_" + str(post["nr"]) + ".json", 'w')
+            f.write(json.dumps(post))
             f.close()
 
             if verbose:
-                print("class_" + piazza_code + "_post_" + str(post["nr"]) + ".txt done")
+                print("class_" + piazza_code + "_post_" + str(post["nr"]) + ".json done")
 
             time.sleep(1)   # after some experimentation it seems piazza servers tolerate 1 request per second
-            num += 1
         except OSError as e:
             print(e.strerror, file=sys.stderr)
 
