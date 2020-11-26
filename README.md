@@ -1,6 +1,6 @@
 # piazza-dl
 
-piazza-dl is a Python3 script that extracts all posts from a course's Piazza forum and outputs them to formatted individual .txt files.
+piazza-dl is a Python3 script that extracts all posts from a course's Piazza forum and outputs them as .json files.
 
 A verbose mode exists if you want to see the scripts progress.
 
