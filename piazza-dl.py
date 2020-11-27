@@ -5,15 +5,15 @@ from piazza_api import Piazza
 from typing import TextIO
 import json, sys, time
 
-def to_txt(post):
-    pass
-
 def main(argv):
     piazza_code: str = ""
+    email: str = ""
+    password: str = ""
     verbose: bool = False
 
+
     # Create argument parser
-    parser = ArgumentParser(description="Extract all Piazza visable posts from a class forum into individual .txt files in the current directory. One file per post.")
+    parser = ArgumentParser(description="Downloads all visable Piazza forum posts for a course into individual JSON files in the current directory. One file per post.")
 
     # Define mandatory arguments
     parser.add_argument("piazza_code",
@@ -21,15 +21,16 @@ def main(argv):
                         nargs=1,
                         metavar="PIAZZACODE")
     parser.add_argument("email",
+                        nargs=1,
                         help="The email you use to log into Piazza.",
-                        nargs=1,
                         metavar="EMAIL")
-    parser.add_argument("password",
-                        help="The password you use to log into Piazza.",
-                        nargs=1,
-                        metavar="PASSWORD")
 
     # Define optional arguments
+    parser.add_argument("password",
+                        nargs="?",
+                        default="",
+                        help="The password you use to log into Piazza.",
+                        metavar="PASSWORD")
     parser.add_argument("-v", "--verbose",
                         help="Toggles verbose mode to recieve more information about what's happening.",
                         action="store_true",
@@ -49,10 +50,19 @@ def main(argv):
         print("Piazza Code recieved: " + piazza_code)
 
     # Login
-    p = Piazza()
     if verbose:
         print("Attempting to login")
-    p.user_login(args.email[0], args.password[0])
+    p = Piazza()
+    email = args.email[0]
+    if verbose:
+        print("Email recieved: " + email)
+    if args.password == "":
+        p.user_login(email)
+    else:
+        password = args.password
+        if verbose:
+            print("Password recieved: " + password)
+        p.user_login(email, password)
 
     # Connect to course
     if verbose:
